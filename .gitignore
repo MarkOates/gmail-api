@@ -1,1 +1,5 @@
+.DS_Store
+
 config/secrets.rb
+credentials.json
+token.yaml
