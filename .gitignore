@@ -2,5 +2,3 @@
 
 config/secrets/
 config/secrets.rb
-credentials.json
-token.yaml
