@@ -16,12 +16,28 @@ class GoogleDocsApi
   TOKEN_PATH = 'token.yaml'.freeze
   SCOPE = Google::Apis::DocsV1::AUTH_DOCUMENTS_READONLY
 
-  ##
-  # Ensure valid credentials, either by restoring from the saved credentials
-  # files or intitiating an OAuth2 authorization. If authorization is required,
-  # the user's default browser will be launched to approve the request.
-  #
-  # @return [Google::Auth::UserRefreshCredentials] OAuth2 credentials
+  def doc(document_id:)
+    # Initialize the API
+
+    # Prints the title of the sample doc:
+    # https://docs.google.com/document/d/195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE/edit
+    document = service.get_document(document_id)
+    document.title
+  end
+
+  private
+
+  def service
+    @service ||= _service
+  end
+
+  def _service
+    docs_service = Google::Apis::DocsV1::DocsService.new
+    docs_service.client_options.application_name = APPLICATION_NAME
+    docs_service.authorization = authorize
+    docs_service
+  end
+
   def authorize
     client_id = Google::Auth::ClientId.from_file(CREDENTIALS_PATH)
     token_store = Google::Auth::Stores::FileTokenStore.new(file: TOKEN_PATH)
@@ -38,18 +54,5 @@ class GoogleDocsApi
       )
     end
     credentials
-  end
-
-  def doc_title
-    # Initialize the API
-    service = Google::Apis::DocsV1::DocsService.new
-    service.client_options.application_name = APPLICATION_NAME
-    service.authorization = authorize
-
-    # Prints the title of the sample doc:
-    # https://docs.google.com/document/d/195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE/edit
-    document_id = '195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE'
-    document = service.get_document(document_id)
-    document.title
   end
 end
