@@ -4,6 +4,7 @@ require 'google/apis/gmail_v1'
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
 require 'fileutils'
+require 'pry'
 
 class GmailApi
   class ReponseError < StandardError; end
