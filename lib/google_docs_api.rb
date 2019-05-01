@@ -17,8 +17,7 @@ class GoogleDocsApi
   SCOPE = Google::Apis::DocsV1::AUTH_DOCUMENTS_READONLY
 
   def doc(document_id:)
-    document = service.get_document(document_id)
-    document.title
+    service.get_document(document_id)
   end
 
   private
