@@ -17,6 +17,15 @@ class GoogleDocsApi
     service.get_document(document_id)
   end
 
+  def paragraph_texts(document_id:)
+    document = doc(document_id: document_id)
+    paragraphs = document.body.content.select { |content| content.paragraph }
+    paragraphs.map do |paragraph|
+      elements = paragraph.paragraph.elements.select { |element| element&.text_run&.content }
+      elements.map { |element| element.text_run.content }.join(" ")
+    end
+  end
+
   private
 
   def service
