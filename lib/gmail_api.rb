@@ -12,11 +12,11 @@ class GmailApi
   class ReponseError < StandardError; end
   class NotFound < StandardError; end
 
-  OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
+  OOB_URI          = 'urn:ietf:wg:oauth:2.0:oob'.freeze
   APPLICATION_NAME = 'Gmail API Ruby Quickstart'.freeze
   CREDENTIALS_PATH = Secrets::GMAIL_API_CREDENTIALS_PATH
-  TOKEN_PATH = Secrets::GMAIL_API_TOKEN_PATH
-  SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
+  TOKEN_PATH       = Secrets::GMAIL_API_TOKEN_PATH
+  SCOPE            = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
 
   def labels
     result = service.list_user_labels(user_id)
