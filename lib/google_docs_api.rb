@@ -6,11 +6,13 @@ require 'googleauth/stores/file_token_store'
 require 'fileutils'
 require 'pry'
 
+require_relative '../config/secrets.rb'
+
 class GoogleDocsApi
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
   APPLICATION_NAME = 'Google Docs API Ruby Quickstart'.freeze
-  CREDENTIALS_PATH = 'credentials.json'.freeze
-  TOKEN_PATH = 'token.yaml'.freeze
+  CREDENTIALS_PATH = Secrets::GOOGLE_DOCS_CREDENTIALS_PATH
+  TOKEN_PATH = Secrets::GOOGLE_DOCS_TOKEN_PATH
   SCOPE = Google::Apis::DocsV1::AUTH_DOCUMENTS_READONLY
 
   def document(document_id:)
