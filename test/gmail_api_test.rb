@@ -6,7 +6,7 @@ class GmailApiTest < Minitest::Test
   def test_labels_returns_my_email_labeles
     gmail_api = GmailApi.new
     expected_labels = {
-"Fullscore"=>"Label_14", "CATEGORY_FORUMS"=>"CATEGORY_FORUMS", "Music Library"=>"Label_4", "Student Loans"=>"Label_9", "Family"=>"Label_8", "[Imap]/Sent"=>"Label_2", "Friends"=>"Label_7", "CATEGORY_PERSONAL"=>"CATEGORY_PERSONAL", "CATEGORY_SOCIAL"=>"CATEGORY_SOCIAL", "[Imap]/Drafts"=>"Label_1", "[Imap]/Trash"=>"Label_3", "Contacts"=>"Label_11", "IMPORTANT"=>"IMPORTANT", "Payments Sent / Recipts"=>"Label_10", "Adobe Customer Service Can cancel after any two months"=>"Label_13", "Shopify"=>"Label_12", "Payments Received"=>"Label_5", "CATEGORY_UPDATES"=>"CATEGORY_UPDATES", "CHAT"=>"CHAT", "SENT"=>"SENT", "INBOX"=>"INBOX", "TRASH"=>"TRASH", "CATEGORY_PROMOTIONS"=>"CATEGORY_PROMOTIONS", "DRAFT"=>"DRAFT", "SPAM"=>"SPAM", "STARRED"=>"STARRED", "UNREAD"=>"UNREAD"
+      "CATEGORY_PERSONAL"=>"CATEGORY_PERSONAL", "CATEGORY_SOCIAL"=>"CATEGORY_SOCIAL", "CATEGORY_UPDATES"=>"CATEGORY_UPDATES", "CATEGORY_FORUMS"=>"CATEGORY_FORUMS", "CHAT"=>"CHAT", "SENT"=>"SENT", "INBOX"=>"INBOX", "TRASH"=>"TRASH", "CATEGORY_PROMOTIONS"=>"CATEGORY_PROMOTIONS", "DRAFT"=>"DRAFT", "SPAM"=>"SPAM", "STARRED"=>"STARRED", "UNREAD"=>"UNREAD", "IMPORTANT"=>"IMPORTANT"
     }
 
     assert_equal expected_labels, gmail_api.labels
@@ -15,15 +15,24 @@ class GmailApiTest < Minitest::Test
   def test_threads_returns_the_threads
     gmail_api = GmailApi.new
     expected_threads = [
-      "https://openai.com/blog/musenet/", "Hymns of Poseidon - Maple &amp; Rye", "", "On Sun, Nov 5, 2017 at 10:56 PM, Mark Oates &lt;markoates0@gmail.com&gt; wrote: On Sun, Nov 5, 2017 at 10:50 PM, Mark Oates &lt;markoates0@gmail.com&gt; wrote: Pilot Experiment On Verbal Attributes"
+      {:id=>"16a74de13984415b", :snippet=>"Quickstart was granted access to your Google account beebot.buzz@gmail.com If you did not grant access, you should check this activity and secure your account. Check activity You received this email to"}, {:id=>"16a74ba167475100", :snippet=>"Welcome to WordPress.com, the most dynamic community of bloggers, website creators, and intrepid readers on the web. You&#39;re all set to begin crafting the site of your dreams and sharing your voice"}, {:id=>"16a74b2b3d6998a3", :snippet=>"Hi BeeBot, Thank you for creating a Google Account. Here is some advice to get started with your Google account. Security You&#39;re in control Choose what&#39;s right for you. Manage your privacy and"},
     ]
 
     assert_equal expected_threads, gmail_api.threads
   end
 
-  def test_messages_will_return_messages_in_a_thread
+  def test_messages_when_a_record_is_not_found_will_raise_an_exception
     gmail_api = GmailApi.new
     thread_id = '16a6efb9e216db6c'
+
+    assert_raises GmailApi::NotFound do
+      gmail_api.messages(thread_id: thread_id)
+    end
+  end
+
+  def test_messages_will_return_messages_in_a_thread
+    gmail_api = GmailApi.new
+    thread_id = '16a74de13984415b'
 
     expected_messages = [
       {

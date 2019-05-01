@@ -6,13 +6,16 @@ require 'googleauth/stores/file_token_store'
 require 'fileutils'
 require 'pry'
 
+require_relative '../config/secrets.rb'
+
 class GmailApi
   class ReponseError < StandardError; end
+  class NotFound < StandardError; end
 
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
   APPLICATION_NAME = 'Gmail API Ruby Quickstart'.freeze
-  CREDENTIALS_PATH = 'credentials.json'.freeze
-  TOKEN_PATH = 'token.yaml'.freeze
+  CREDENTIALS_PATH = Secrets::GMAIL_API_CREDENTIALS_PATH
+  TOKEN_PATH = Secrets::GMAIL_API_TOKEN_PATH
   SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
 
   def labels
@@ -37,13 +40,15 @@ class GmailApi
         },
       }
     end
+  rescue Google::Apis::ClientError
+    raise NotFound
   end
 
   def threads
     result = service.list_user_threads(
       user_id,
       include_spam_trash: nil,
-      label_ids: labels['Fullscore'],
+      label_ids: nil,
       max_results: 4,
       page_token: nil,
       q: nil,
@@ -56,7 +61,12 @@ class GmailApi
       result
     end
 
-    result.threads.map { |thread| thread.snippet }
+    result.threads.map do |thread|
+      {
+        id: thread.id,
+        snippet: thread.snippet,
+      }
+    end
   end
 
   private
