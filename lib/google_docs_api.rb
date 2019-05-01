@@ -17,10 +17,6 @@ class GoogleDocsApi
   SCOPE = Google::Apis::DocsV1::AUTH_DOCUMENTS_READONLY
 
   def doc(document_id:)
-    # Initialize the API
-
-    # Prints the title of the sample doc:
-    # https://docs.google.com/document/d/195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE/edit
     document = service.get_document(document_id)
     document.title
   end
