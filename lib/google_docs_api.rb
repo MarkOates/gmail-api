@@ -14,7 +14,7 @@ class GoogleDocsApi
   SCOPE = Google::Apis::DocsV1::AUTH_DOCUMENTS_READONLY
 
   def doc(document_id:)
-    service.get_document(document_id)
+    _document(document_id: document_id)
   end
 
   def paragraph_texts(document_id:)
@@ -27,6 +27,10 @@ class GoogleDocsApi
   end
 
   private
+
+  def _document(document_id:)
+    service.get_document(document_id)
+  end
 
   def service
     @service ||= _service
