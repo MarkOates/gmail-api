@@ -7,7 +7,7 @@ class GoogleDocsApiTest < Minitest::Test
     google_docs_api = GoogleDocsApi.new
     # https://docs.google.com/document/d/195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE/edit
     document_id = '195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE'
-    document = google_docs_api.doc(document_id: document_id)
+    document = google_docs_api.document(document_id: document_id)
 
     expected_document_title = 'Docs API Quickstart'
     actual_document_title = document.title
@@ -18,7 +18,6 @@ class GoogleDocsApiTest < Minitest::Test
   def test_paragraph_texts_returns_the_text_from_all_the_paragraphs_in_the_document
     google_docs_api = GoogleDocsApi.new
     document_id = '195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE'
-    document = google_docs_api.doc(document_id: document_id)
 
     expected_document_paragraphs = ["Sample doc\n"]
     actual_document_paragraphs = google_docs_api.paragraph_texts(document_id: document_id)
@@ -29,7 +28,6 @@ class GoogleDocsApiTest < Minitest::Test
   def test_paragraph_texts_returns_the_text_from_all_the_paragraphs_in_the_document_2
     google_docs_api = GoogleDocsApi.new
     document_id = '1os9LrqiEVHprGizZbNtIqFIOyEhUkuaOhAytCheXpBE'
-    document = google_docs_api.doc(document_id: document_id)
 
     expected_document_paragraphs = [
       "This is the first paragraph.\n",

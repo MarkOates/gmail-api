@@ -13,12 +13,12 @@ class GoogleDocsApi
   TOKEN_PATH = 'token.yaml'.freeze
   SCOPE = Google::Apis::DocsV1::AUTH_DOCUMENTS_READONLY
 
-  def doc(document_id:)
+  def document(document_id:)
     _document(document_id: document_id)
   end
 
   def paragraph_texts(document_id:)
-    document = doc(document_id: document_id)
+    document = document(document_id: document_id)
     paragraphs = document.body.content.select { |content| content.paragraph }
     paragraphs.map do |paragraph|
       elements = paragraph.paragraph.elements.select { |element| element&.text_run&.content }
