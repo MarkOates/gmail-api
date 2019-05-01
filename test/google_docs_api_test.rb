@@ -25,4 +25,19 @@ class GoogleDocsApiTest < Minitest::Test
 
     assert_equal expected_document_paragraphs, actual_document_paragraphs
   end
+
+  def test_paragraph_texts_returns_the_text_from_all_the_paragraphs_in_the_document_2
+    google_docs_api = GoogleDocsApi.new
+    document_id = '1os9LrqiEVHprGizZbNtIqFIOyEhUkuaOhAytCheXpBE'
+    document = google_docs_api.doc(document_id: document_id)
+
+    expected_document_paragraphs = [
+      "This is the first paragraph.\n",
+      "This is the second paragraph.\n",
+      "And finally, a third paragraph.\n",
+    ]
+    actual_document_paragraphs = google_docs_api.paragraph_texts(document_id: document_id)
+
+    assert_equal expected_document_paragraphs, actual_document_paragraphs
+  end
 end
