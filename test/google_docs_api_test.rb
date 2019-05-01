@@ -9,10 +9,13 @@ class GoogleDocsApiTest < Minitest::Test
     document_id = '195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE'
     document = google_docs_api.document(document_id: document_id)
 
-    expected_document_title = 'Docs API Quickstart'
-    actual_document_title = document.title
+    expected_document = {
+      title:      'Docs API Quickstart',
+      paragraphs: ["Sample doc\n"],
+    }
+    actual_document = document
 
-    assert_equal expected_document_title, actual_document_title
+    assert_equal expected_document, actual_document
   end
 
   def test_paragraph_texts_returns_the_text_from_all_the_paragraphs_in_the_document
