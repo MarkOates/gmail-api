@@ -14,7 +14,6 @@ class GmailApi
   TOKEN_PATH = 'token.yaml'.freeze
   SCOPE = Google::Apis::GmailV1::AUTH_GMAIL_READONLY
 
-  # Show the user's labels
   def labels
     result = service.list_user_labels(user_id)
     [] if result.labels.empty?
