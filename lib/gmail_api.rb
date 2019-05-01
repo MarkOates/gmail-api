@@ -21,6 +21,24 @@ class GmailApi
     result.labels.each_with_object({}) { |label, object| object[label.name] = label.id }
   end
 
+  def messages(thread_id:)
+    result = service.get_user_thread(user_id, thread_id)
+    result.messages.map do |message|
+      subject = message.payload.headers.find { |header| header.name == 'Subject' }
+      body_plain = message.payload.parts.find { |part| part.mime_type == 'text/plain' }
+      body_html = message.payload.parts.find { |part| part.mime_type == 'text/html' }
+
+      {
+        id: message.id,
+        subject: subject.value,
+        body: {
+          plain: body_plain&.body&.data,
+          html:  body_html&.body&.data,
+        },
+      }
+    end
+  end
+
   def threads
     result = service.list_user_threads(
       user_id,
